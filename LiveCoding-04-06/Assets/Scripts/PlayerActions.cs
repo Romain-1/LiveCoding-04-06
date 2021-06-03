@@ -37,6 +37,11 @@ public class PlayerActions : MonoBehaviour
         _playerAnimator.SetBool(SuperAttackHash1, false);
         _playerAnimator.SetTrigger(SuperAttackHash2);
     }
+
+    public void TakeDamage(float nbDamage, float percentageIncrease, Vector2 direction)
+    {
+        _playerMovement.TakeDamage(nbDamage, percentageIncrease, direction);
+    }
     
     void BasicAttack()
     {
@@ -46,19 +51,20 @@ public class PlayerActions : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        var attacking = _playerMovement.GetFittedAxisRaw("BasicAttack");
+        var basic = _playerMovement.GetFittedAxisRaw("BasicAttack");
+        var super = _playerMovement.GetFittedAxisRaw("SuperAttack");
 
-        if (!_playerMovement.isFrozen && attacking == 1 && Input.anyKeyDown)
+        if (!_playerMovement.isFrozen && basic != 0 && Input.anyKeyDown)
         {
             BasicAttack();
         }
 
-        if (!_playerMovement.isFrozen && attacking == -1 && Input.anyKeyDown)
+        if (!_playerMovement.isFrozen && super != 0 && Input.anyKeyDown)
         {
             StartSuperAttack();
         }
 
-        if (_charging && attacking != -1)
+        if (_charging && super == 0)
         {
             ReleaseSuperAttack();
         }
