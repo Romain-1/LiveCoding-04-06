@@ -45,11 +45,15 @@ public class PlayerMovement : MonoBehaviour
         _nbJumpLeft = MaxNbJumps;
         _baseScale = transform.localScale;
         _rigidbody = GetComponent<Rigidbody2D>();
+
+        if (player == Type.Player2)
+        {
+            transform.Find("Sprite").GetComponent<SpriteRenderer>().color = new Color(0.6f, 0.6f, 0.6f);
+        }
     }
 
     public void TakeDamage(float nbDamage, float percentageIncrease, Vector2 direction)
     {
-        
         _rigidbody.velocity = Vector2.zero;
         _rigidbody.angularVelocity = 0f;
         _playerAnimator.SetTrigger(_takeDamageHash);
